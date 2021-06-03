@@ -9,6 +9,11 @@ It's inspired by [v2ray-heroku](https://github.com/bclswl0827/v2ray-heroku), but
 
 This project builds the docker image with v2ray included and pushs to the docker hub, if you want the latest v2ray, just kick off the build in the github action manually or push a commit.
 
+## Before github action
+You need to add two secrets for github action to run, for how to set it please refer to [here](https://docs.github.com/cn/actions/reference/encrypted-secrets)
+1. DOCKER_PASSWORD
+2. HEROKU_APP_NAME
+
 ## Deploy to heroku:
 [![Deploy](https://www.herokucdn.com/deploy/button.png)](https://dashboard.heroku.com/new?template=https%3A%2F%2Fgithub.com%2Fpansila%2Fv2ray_heroku)
 

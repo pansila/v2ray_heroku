@@ -37,3 +37,20 @@ jobs:
           docker push pansila/v2ray_heroku:$version
           docker push pansila/v2ray_heroku:latest
 
+      - name: kick off a new heroku deploy
+        run: |
+          version=$(v2ray_unzip/v2ray --version | head -n1 | awk '{print $2}')
+	  sudo snap install --classic heroku
+	  heroku login -i <<EOF
+          ${{ secrets.HEROKU_EMAIL }}
+          ${{ secrets.HEROKU_PASSWORD }}
+	  EOF
+	  mkdir heroku_repo
+	  cd heroku_repo
+	  heroku git:remote -a ${{ secrets.HEROKU_APP_NAME }}
+	  git pull
+	  echo 1 >>kick.off
+	  git add kick.off
+	  git commit -m "new deploy for v2ray version: $version"
+	  git push heroku master
+
