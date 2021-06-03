@@ -7,6 +7,7 @@ RUN chmod +x /usr/local/bin/run_v2ray.sh
 RUN chmod +x /usr/local/bin/v2ray
 RUN chmod +x /usr/local/bin/v2ctl
 
+RUN apk update
 RUN apk add --no-cache ca-certificates
 
 # V2Ray new configuration
