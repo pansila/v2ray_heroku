@@ -33,7 +33,7 @@ jobs:
           chmod +x v2ray
           version=$(./v2ray --version | head -n1 | awk '{print $2}')
           docker build . -t pansila/v2ray_heroku:$version
-          docker tag pansila/v2ray_heroku:$version pansila/v2ray_heroku:latest
+          docker image tag pansila/v2ray_heroku:$version pansila/v2ray_heroku:latest
           docker login -u pansila -p ${{secrets.DOCKER_PASSWORD}}
           docker push pansila/v2ray_heroku:$version
           docker push pansila/v2ray_heroku:latest
