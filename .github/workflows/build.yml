@@ -27,7 +27,7 @@ jobs:
           unzip v2ray-linux-64.zip
 
       - name: build the docker image
-	id: docker_build
+        id: docker_build
         run: |
           version=$(./v2ray --version | head -n1 | awk '{print $2}')
           echo v2ray version $version
