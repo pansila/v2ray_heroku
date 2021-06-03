@@ -13,6 +13,9 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+
       - uses: docker/login-action@v1
         with:
           username: pansila
@@ -22,13 +25,17 @@ jobs:
         run: |
           wget -q https://github.com/v2fly/v2ray-core/releases/latest/download/v2ray-linux-64.zip
           unzip v2ray-linux-64.zip
-          version=$(./v2ray --version | head -n1 | awk '{print $2}')
-          echo v2ray version $version
 
       - name: build the docker image
+	id: docker_build
         run: |
+          version=$(./v2ray --version | head -n1 | awk '{print $2}')
+          echo v2ray version $version
           docker build . -t pansila/v2ray_heroku:$version
           docker image tag pansila/v2ray_heroku:$version pansila/v2ray_heroku:latest
           docker push pansila/v2ray_heroku:$version
           docker push pansila/v2ray_heroku:latest
+
+      - name: Image digest
+        run: echo ${{ steps.docker_build.outputs.digest }}
 
