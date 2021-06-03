@@ -12,7 +12,7 @@ RUN apk add --no-cache ca-certificates
 
 # V2Ray new configuration
 RUN install -d /usr/local/etc/v2ray
-ADD config.json /usr/local/etc/v2ray/config.json
+ADD config.json.server /usr/local/etc/v2ray/config.json
 
 # Run V2Ray
 ENTRYPOINT ["/usr/local/bin/run_v2ray.sh"]
