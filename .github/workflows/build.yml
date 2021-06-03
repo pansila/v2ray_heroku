@@ -15,14 +15,12 @@ jobs:
 
       - name: build the docker image
         run: |
-          wget https://github.com/v2fly/v2ray-core/releases/latest/download/v2ray-linux-64.zip
+          wget -q https://github.com/v2fly/v2ray-core/releases/latest/download/v2ray-linux-64.zip
           unzip v2ray-linux-64.zip
           version=$(./v2ray --version | head -n1 | awk '{print $2}')
+          docker login -u pansila -p ${{ secrets.DOCKER_PASSWORD }}
           docker build . -t pansila/v2ray_heroku:$version
-          docker images
           docker image tag pansila/v2ray_heroku:$version pansila/v2ray_heroku:latest
-          docker images
-          docker login -u pansila -p ${{secrets.DOCKER_PASSWORD}}
           docker push pansila/v2ray_heroku:$version
           docker push pansila/v2ray_heroku:latest
 
