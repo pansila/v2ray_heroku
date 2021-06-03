@@ -32,7 +32,7 @@ jobs:
           version=$(/tmp/v2ray/v2ray --version | head -n1 | awk '{print $2}')
           if [ -z "$version" ]; then exit 1; fi
           echo v2ray version $version
-          docker build -f Dockerfile.github -t pansila/v2ray_heroku:$version
+          docker build . -f Dockerfile.github -t pansila/v2ray_heroku:$version
           docker image tag pansila/v2ray_heroku:$version pansila/v2ray_heroku:latest
           docker push pansila/v2ray_heroku:$version
           docker push pansila/v2ray_heroku:latest
