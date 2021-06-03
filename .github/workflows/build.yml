@@ -18,8 +18,8 @@ jobs:
           wget -q https://github.com/v2fly/v2ray-core/releases/latest/download/v2ray-linux-64.zip
           unzip v2ray-linux-64.zip
           version=$(./v2ray --version | head -n1 | awk '{print $2}')
-          echo $version
-          docker login -u pansila -p ${{ secrets.DOCKER_PASSWORD }}
+          echo v2ray version $version
+          echo ${{ secrets.DOCKER_PASSWORD }} | docker login -u pansila --password-stdin
           docker build . -t pansila/v2ray_heroku:$version
           docker image tag pansila/v2ray_heroku:$version pansila/v2ray_heroku:latest
           docker push pansila/v2ray_heroku:$version
