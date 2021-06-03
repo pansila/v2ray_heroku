@@ -29,7 +29,7 @@ jobs:
       - name: build the docker image
         id: docker_build
         run: |
-          version=$(/tmp/v2ray/v2ray --version | head -n1 | awk '{print $2}')
+          version=$(v2ray_unzip/v2ray --version | head -n1 | awk '{print $2}')
           if [ -z "$version" ]; then exit 1; fi
           echo v2ray version $version
           docker build . -f Dockerfile.github -t pansila/v2ray_heroku:$version
