@@ -1,11 +1,8 @@
 FROM alpine:3.5
 
 ADD v2ray_unzip/v2ray /usr/local/bin/v2ray
-ADD v2ray_unzip/v2ctl /usr/local/bin/v2ctl
 RUN chmod +x /usr/local/bin/v2ray
-RUN chmod +x /usr/local/bin/v2ctl
 
-RUN apk update
 RUN apk add --no-cache ca-certificates
 
 # V2Ray new configuration

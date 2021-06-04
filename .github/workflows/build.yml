@@ -39,7 +39,7 @@ jobs:
 
       - name: install heroku cli and login
         run: |
-          apt-get install expect
+          sudo apt-get install expect
           curl https://cli-assets.heroku.com/install.sh | sh
           expect -c '
           set send_human {.1 .3 1 .05 2}
