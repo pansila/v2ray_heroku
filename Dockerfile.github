@@ -1,13 +1,13 @@
-FROM alpine:3.5
+FROM alpine:latest
 
+ADD run_v2ray.sh /usr/local/bin/run_v2ray.sh
 ADD v2ray_unzip/v2ray /usr/local/bin/v2ray
+RUN chmod +x /usr/local/bin/run_v2ray.sh
 RUN chmod +x /usr/local/bin/v2ray
 
 RUN apk add --no-cache ca-certificates
 
-# V2Ray new configuration
 RUN install -d /usr/local/etc/v2ray
 ADD config.json.server /usr/local/etc/v2ray/config.json
 
-# Run V2Ray
-ENTRYPOINT ["/usr/local/bin/v2ray", "-config", "/usr/local/etc/v2ray/config.json"]
+ENTRYPOINT ["/usr/local/bin/run_v2ray.sh"]

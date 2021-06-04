@@ -1,6 +1,3 @@
 FROM pansila/v2ray_heroku:latest
 
-RUN sed -i "s/\"__PORT\"/$PORT/" /usr/local/etc/v2ray/config.json
-RUN sed -i "s/\"__UUID\"/\"$UUID\"/" /usr/local/etc/v2ray/config.json
-
-ENTRYPOINT ["/usr/local/bin/v2ray", "-config", "/usr/local/etc/v2ray/config.json"]
+ENTRYPOINT ["/usr/local/bin/run_v2ray.sh"]
