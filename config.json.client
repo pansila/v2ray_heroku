@@ -72,8 +72,7 @@
       "network": "ws",
       "security": "tls",
       "tlsSettings": {
-        "serverName": "server.cc",
-	"allowInsecure": true
+	"allowInsecure": false
       },
       "wsSettings": {
         "path": "/",
