@@ -46,7 +46,7 @@ jobs:
           set timeout 30
           spawn heroku login -i
           expect "Email: "
-          send -h "${{ secrets.HEROKU_EMAIL }}"
+          send -h "${{ secrets.HEROKU_EMAIL }}\r"
           expect "Password: "
           send -h "${{ secrets.HEROKU_PASSWORD }}\r"
           expect eof
@@ -59,8 +59,9 @@ jobs:
           cd heroku_repo
           git config --global user.email ${{ secrets.HEROKU_EMAIL }}
           git config --global user.name pansila
+          git init
           heroku git:remote -a ${{ secrets.HEROKU_APP_NAME }}
-          git pull
+          git pull heroku master
           echo 1 >>kick.off
           git add kick.off
           git commit -m "new deploy for v2ray version: $version"
