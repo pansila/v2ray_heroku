@@ -1,9 +1,7 @@
 FROM alpine:3.5
 
-ADD run_v2ray.sh /usr/local/bin/run_v2ray.sh
 ADD v2ray_unzip/v2ray /usr/local/bin/v2ray
 ADD v2ray_unzip/v2ctl /usr/local/bin/v2ctl
-RUN chmod +x /usr/local/bin/run_v2ray.sh
 RUN chmod +x /usr/local/bin/v2ray
 RUN chmod +x /usr/local/bin/v2ctl
 
