@@ -37,14 +37,24 @@ jobs:
           docker push pansila/v2ray_heroku:$version
           docker push pansila/v2ray_heroku:latest
 
+      - name: install heroku cli and login
+        run: |
+          apt-get install expect
+          curl https://cli-assets.heroku.com/install.sh | sh
+          expect -c '
+          set send_human {.1 .3 1 .05 2}
+          set timeout 30
+          spawn heroku login -i
+          expect "Email: "
+          send "${{ secrets.HEROKU_EMAIL }}"
+          expect "Password: "
+          send -h "${{ secrets.HEROKU_PASSWORD }}\r"
+          expect eof
+          '
+
       - name: kick off a new heroku deploy
         run: |
           version=$(v2ray_unzip/v2ray --version | head -n1 | awk '{print $2}')
-          curl https://cli-assets.heroku.com/install.sh | sh
-          heroku login -i <<EOF
-          ${{ secrets.HEROKU_EMAIL }}
-          ${{ secrets.HEROKU_PASSWORD }}
-          EOF
           mkdir heroku_repo
           cd heroku_repo
           heroku git:remote -a ${{ secrets.HEROKU_APP_NAME }}
