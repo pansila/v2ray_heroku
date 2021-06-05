@@ -3,8 +3,10 @@ name: CI
 on:
   push:
     branches: [ main ]
-
+  repository_dispatch:
   workflow_dispatch:
+  schedule:
+    - cron: 0 4 * * *
 
 jobs:
   build:
@@ -36,4 +38,3 @@ jobs:
           docker image tag pansila/v2ray_heroku:$version pansila/v2ray_heroku:latest
           docker push pansila/v2ray_heroku:$version
           docker push pansila/v2ray_heroku:latest
-
