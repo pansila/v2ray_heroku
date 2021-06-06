@@ -24,6 +24,7 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
 
       - name: check the latest version
+        continue-on-error: true
         id: check
         run: |
           github_latest=$(utils/github_get_latest_release.sh v2fly/v2ray-core)
