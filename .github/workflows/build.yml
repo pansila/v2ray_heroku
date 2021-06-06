@@ -27,13 +27,13 @@ jobs:
         id: check
         run: |
           github_latest=$(utils/github_get_latest_release.sh v2fly/v2ray-core)
-          dokcer_latest=$(utils/docker_image_find_tag_equal_to_latest.sh -n pansila/v2ray_heroku -q)
+          docker_latest=$(utils/docker_image_find_tag_equal_to_latest.sh -n pansila/v2ray_heroku -q)
           if [[ "github_latest" == "$docker_latest" ]]; then
             echo "docker image is up to date, skipping the updating"
             exit 0
           fi
-          echo "docker image is out of date, updating..."
-          echo "::set-env name=VERSION::$github_latest"
+          echo "docker image is out of date, current: $docker_latest, latest: $github_latest, updating..."
+          echo "VERSION=$github_latest" >> $GITHUB_ENV
           exit 1
 
       - name: download the latest v2ray
@@ -46,20 +46,20 @@ jobs:
           if [[ "$version" != "$VERSION" ]]; then exit 1; fi
           echo v2ray version: $version
 
-      - name: build and push the docker image
-        if: steps.check.conclusion == 'failure'
-        run: |
-          docker build . -f Dockerfile.github -t pansila/v2ray_heroku:$VERSION
-          docker image tag pansila/v2ray_heroku:$version pansila/v2ray_heroku:latest
-          docker push pansila/v2ray_heroku:$VERSION
-          docker push pansila/v2ray_heroku:latest
-
       # - name: build and push the docker image
       #   if: steps.check.conclusion == 'failure'
-      #   uses: docker/build-push-action@v2
-      #   file: Dockerfile.github
-      #   context: .
-      #   push: true
-      #   tags: |
-      #     pansila/v2ray_heroku:${{ env.VERSION }}
-      #     pansila/v2ray_heroku:latest
+      #   run: |
+      #     docker build . -f Dockerfile.github -t pansila/v2ray_heroku:$VERSION
+      #     docker image tag pansila/v2ray_heroku:$version pansila/v2ray_heroku:latest
+      #     docker push pansila/v2ray_heroku:$VERSION
+      #     docker push pansila/v2ray_heroku:latest
+
+      - name: build and push the docker image
+        if: steps.check.conclusion == 'failure'
+        uses: docker/build-push-action@v2
+        file: Dockerfile.github
+        context: .
+        push: true
+        tags: |
+          pansila/v2ray_heroku:${{ env.VERSION }}
+          pansila/v2ray_heroku:latest
