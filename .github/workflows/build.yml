@@ -1,4 +1,4 @@
-name: CI
+name: Build the docker image
 
 on:
   push:
@@ -23,18 +23,43 @@ jobs:
           username: pansila
           password: ${{ secrets.DOCKER_PASSWORD }}
 
-      - name: download latest v2ray
+      - name: check the latest version
+        id: check
+        run: |
+          github_latest=$(utils/github_get_latest_release.sh v2fly/v2ray-core)
+          dokcer_latest=$(utils/docker_image_find_tag_equal_to_latest.sh -n pansila/v2ray_heroku -q)
+          if [[ "github_latest" == "$docker_latest" ]; then
+            echo "docker image is up to date, skipping the updating"
+            exit 0
+          fi
+          echo "docker image is out of date, updating..."
+          echo "::set-env name=VERSION::$github_latest"
+          exit 1
+
+      - name: download the latest v2ray
+        if: steps.check.conclusion == 'failure'
         run: |
           wget -q https://github.com/v2fly/v2ray-core/releases/latest/download/v2ray-linux-64.zip
           unzip v2ray-linux-64.zip -d v2ray_unzip
-
-      - name: build the docker image
-        id: docker_build
-        run: |
           version=$(v2ray_unzip/v2ray --version | head -n1 | awk '{print $2}')
           if [ -z "$version" ]; then exit 1; fi
-          echo v2ray version $version
-          docker build . -f Dockerfile.github -t pansila/v2ray_heroku:$version
+          if [[ "$version" != "$VERSION" ]]; then exit 1; fi
+          echo v2ray version: $version
+
+      - name: build and push the docker image
+        if: steps.check.conclusion == 'failure'
+        run: |
+          docker build . -f Dockerfile.github -t pansila/v2ray_heroku:$VERSION
           docker image tag pansila/v2ray_heroku:$version pansila/v2ray_heroku:latest
-          docker push pansila/v2ray_heroku:$version
+          docker push pansila/v2ray_heroku:$VERSION
           docker push pansila/v2ray_heroku:latest
+
+      # - name: build and push the docker image
+      #   if: steps.check.conclusion == 'failure'
+      #   uses: docker/build-push-action@v2
+      #   file: Dockerfile.github
+      #   context: .
+      #   push: true
+      #   tags: |
+      #     pansila/v2ray_heroku:${{ env.VERSION }}
+      #     pansila/v2ray_heroku:latest
