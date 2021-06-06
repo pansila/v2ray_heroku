@@ -57,9 +57,10 @@ jobs:
       - name: build and push the docker image
         if: steps.check.conclusion == 'failure'
         uses: docker/build-push-action@v2
-        file: Dockerfile.github
-        context: .
-        push: true
-        tags: |
-          pansila/v2ray_heroku:${{ env.VERSION }}
-          pansila/v2ray_heroku:latest
+        with:
+          file: Dockerfile.github
+          context: .
+          push: true
+          tags: |
+            pansila/v2ray_heroku:${{ env.VERSION }}
+            pansila/v2ray_heroku:latest
