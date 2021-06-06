@@ -23,7 +23,7 @@ jobs:
           username: pansila
           password: ${{ secrets.DOCKER_PASSWORD }}
 
-      - name: check the latest version
+      - name: Check the latest version
         continue-on-error: true
         id: check
         run: |
@@ -37,8 +37,8 @@ jobs:
           echo "VERSION=$github_latest" >> $GITHUB_ENV
           exit 1
 
-      - name: download the latest v2ray
-        if: steps.check.conclusion == 'failure'
+      - name: Download the latest v2ray
+        if: steps.check.outcome == 'failure'
         run: |
           wget -q https://github.com/v2fly/v2ray-core/releases/latest/download/v2ray-linux-64.zip
           unzip v2ray-linux-64.zip -d v2ray_unzip
@@ -47,16 +47,16 @@ jobs:
           if [[ "$version" != "$VERSION" ]]; then exit 1; fi
           echo v2ray version: $version
 
-      # - name: build and push the docker image
-      #   if: steps.check.conclusion == 'failure'
+      # - name: Build and push the docker image
+      #   if: steps.check.outcome == 'failure'
       #   run: |
       #     docker build . -f Dockerfile.github -t pansila/v2ray_heroku:$VERSION
       #     docker image tag pansila/v2ray_heroku:$version pansila/v2ray_heroku:latest
       #     docker push pansila/v2ray_heroku:$VERSION
       #     docker push pansila/v2ray_heroku:latest
 
-      - name: build and push the docker image
-        if: steps.check.conclusion == 'failure'
+      - name: Build and push the docker image
+        if: steps.check.outcome == 'failure'
         uses: docker/build-push-action@v2
         with:
           file: Dockerfile.github
