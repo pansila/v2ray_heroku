@@ -44,7 +44,7 @@ jobs:
           unzip v2ray-linux-64.zip -d v2ray_unzip
           version=$(v2ray_unzip/v2ray --version | head -n1 | awk '{print $2}')
           if [ -z "$version" ]; then exit 1; fi
-          if [[ "$version" != "$VERSION" ]]; then exit 1; fi
+          if [[ v"$version" != "$VERSION" ]]; then exit 1; fi
           echo v2ray version: $version
 
       # - name: Build and push the docker image
