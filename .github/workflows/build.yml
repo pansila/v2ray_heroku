@@ -28,7 +28,7 @@ jobs:
         run: |
           github_latest=$(utils/github_get_latest_release.sh v2fly/v2ray-core)
           dokcer_latest=$(utils/docker_image_find_tag_equal_to_latest.sh -n pansila/v2ray_heroku -q)
-          if [[ "github_latest" == "$docker_latest" ]; then
+          if [[ "github_latest" == "$docker_latest" ]]; then
             echo "docker image is up to date, skipping the updating"
             exit 0
           fi
