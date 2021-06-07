@@ -1,5 +1,6 @@
 # v2ray heroku app image
 [![Docker Pulls](https://img.shields.io/docker/pulls/pansila/v2ray_heroku.svg?style=flat-square&label=Pulls&logo=docker&color=green)](https://hub.docker.com/r/pansila/v2ray_heroku)
+![Docker Version](https://img.shields.io/docker/v/pansila/v2ray_heroku?sort=date&style=flat-square&label=Version&logo=docker&color=blue)
 
 This repo builds v2ray docker image for heroku app and helps you deploy it.
 
