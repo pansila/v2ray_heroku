@@ -9,13 +9,6 @@ on:
     - cron: 0 20 * * *
 
 jobs:
-  cancel_build:
-    name: 'cancel the build if no version update'
-    runs-on: ubuntu-latest
-    timeout-minutes: 1
-    steps:
-      - uses: actions/checkout@v2
-
   build:
     runs-on: ubuntu-latest
 
