@@ -153,7 +153,7 @@ TAGS_COUNT=$(echo "$TAGS_CURL"|jq -r '.tags[]'|grep -vi windows|wc -l)
 # https://stackoverflow.com/questions/19120263/why-exit-code-141-with-grep-q/19120674#19120674
 # TAGS=$(echo "$TAGS_CURL"|jq --arg TAGS_FILTER "$TAGS_FILTER" -r '.tags[]|select(.|contains($TAGS_FILTER))'|grep -vi windows|sort -r --version-sort|head -"$TAGS_LIMIT")
 TAGS_temp=$(echo "$TAGS_CURL"|jq --arg TAGS_FILTER "$TAGS_FILTER" -r '.tags[]|select(.|contains($TAGS_FILTER))'|grep -vi windows|sort -r --version-sort) 
-TAGS=$(echo "$TAGS_temp"|sed -n 1,"$TAGS_LIMIT"p|sort -rV)
+TAGS=$(echo "$TAGS_temp"|sed -n 1,"$TAGS_LIMIT"p|sort -V)
 if [ -z "$QUIET" ]; then
   echo "Found Total Tags: $TAGS_COUNT"
 fi
