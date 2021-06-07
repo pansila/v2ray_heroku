@@ -15,14 +15,6 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v1
-
-      - uses: docker/login-action@v1
-        with:
-          username: pansila
-          password: ${{ secrets.DOCKER_PASSWORD }}
-
       - name: Check the latest version
         continue-on-error: true
         id: check
@@ -36,6 +28,16 @@ jobs:
           echo "docker image is out of date, current: $docker_latest, latest: $github_latest, updating..."
           echo "VERSION=$github_latest" >> $GITHUB_ENV
           exit 1
+
+      - name: Set up Docker Buildx
+        if: steps.check.outcome == 'failure'
+        uses: docker/setup-buildx-action@v1
+
+      - uses: docker/login-action@v1
+        if: steps.check.outcome == 'failure'
+        with:
+          username: pansila
+          password: ${{ secrets.DOCKER_PASSWORD }}
 
       - name: Download the latest v2ray
         if: steps.check.outcome == 'failure'
