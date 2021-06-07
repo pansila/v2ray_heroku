@@ -16,40 +16,50 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Check the latest version
-        continue-on-error: true
-        id: check
-        run: |
-          github_latest=$(utils/github_get_latest_release.sh v2fly/v2ray-core)
-          docker_latest=$(utils/docker_image_find_tag_equal_to_latest.sh -n pansila/v2ray_heroku -q)
-          if [[ "$github_latest" == "$docker_latest" ]]; then
-            echo "docker image is up to date, cancelling the updating..."
-            exit 0
-          fi
-          if [ -z "$github_latest" ] || [ -z "$docker_latest" ]; then
-            echo "Getting the wrong versions: current: $docker_latest, latest: $github_latest, cancelling..."
-            exit 0
-          fi
-          echo "docker image is out of date, current: $docker_latest, latest: $github_latest, updating..."
-          exit 1
-
-      - uses: styfle/cancel-workflow-action@0.9.0
-        if: steps.check.outcome == 'success'
-        with:
-          workflow_id: 9887912
-          access_token: ${{ github.token }}
-      
   build:
     runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v2
 
-      - name: Get the latest version
+      - name: Check the latest version
         run: |
           github_latest=$(utils/github_get_latest_release.sh v2fly/v2ray-core)
-          if [ -z "$github_latest" ]; then exit 1; fi
+          docker_latest=$(utils/docker_image_find_tag_equal_to_latest.sh -n pansila/v2ray_heroku -q)
+          if [[ "$github_latest" == "$docker_latest" ]]; then
+            echo "CANCEL=1" >> $GITHUB_ENV
+            echo "docker image is up to date, cancelling the updating..."
+            exit 0
+          fi
+          if [ -z "$github_latest" ] || [ -z "$docker_latest" ]; then
+            echo "CANCEL=1" >> $GITHUB_ENV
+            echo "Getting the wrong versions: current: $docker_latest, latest: $github_latest, cancelling..."
+            exit 0
+          fi
           echo "VERSION=$github_latest" >> $GITHUB_ENV
+          echo "docker image is out of date, current: $docker_latest, latest: $github_latest, updating..."
+
+      - uses: actions/github-script@v2
+        id: cancel
+        with:
+          script: |
+            const { owner, repo } = context.repo
+            if (${{ env.CANCEL }}) {
+              console.log('Cancelling ...');
+              const run_id = "${{ github.run_id }}";
+              await github.actions.cancelWorkflowRun({ owner, repo, run_id });
+              return 'stop'
+            } else {
+              return 'build'
+            }
+          result-encoding: string
+
+      - name: Waiting for cancellation
+        run: sleep 60
+        if: steps.cancel.outputs.result == 'stop'
+
+      - name: Should build?
+        run: test "${{ steps.cancel.outputs.result }}" = "build"
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
