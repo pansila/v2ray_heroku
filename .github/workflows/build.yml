@@ -14,6 +14,8 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 1
     steps:
+      - uses: actions/checkout@v2
+
       - name: Check the latest version
         continue-on-error: true
         id: check
@@ -21,11 +23,14 @@ jobs:
           github_latest=$(utils/github_get_latest_release.sh v2fly/v2ray-core)
           docker_latest=$(utils/docker_image_find_tag_equal_to_latest.sh -n pansila/v2ray_heroku -q)
           if [[ "$github_latest" == "$docker_latest" ]]; then
-            echo "docker image is up to date, skipping the updating"
+            echo "docker image is up to date, cancelling the updating..."
+            exit 0
+          fi
+          if [ -z "$github_latest" ] || [ -z "$docker_latest" ]; then
+            echo "Getting the wrong versions: current: $docker_latest, latest: $github_latest, cancelling..."
             exit 0
           fi
           echo "docker image is out of date, current: $docker_latest, latest: $github_latest, updating..."
-          echo "VERSION=$github_latest" >> $GITHUB_ENV
           exit 1
 
       - uses: styfle/cancel-workflow-action@0.9.0
@@ -39,6 +44,12 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
+
+      - name: Get the latest version
+        run: |
+          github_latest=$(utils/github_get_latest_release.sh v2fly/v2ray-core)
+          if [ -z "$github_latest" ]; then exit 1; fi
+          echo "VERSION=$github_latest" >> $GITHUB_ENV
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
