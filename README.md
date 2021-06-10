@@ -1,6 +1,7 @@
 # v2ray heroku app image
 [![Docker Pulls](https://img.shields.io/docker/pulls/pansila/v2ray_heroku.svg?style=flat-square&label=Pulls&logo=docker&color=green)](https://hub.docker.com/r/pansila/v2ray_heroku)
 [![Docker Version](https://img.shields.io/docker/v/pansila/v2ray_heroku?sort=date&style=flat-square&label=Version&logo=docker&color=blue)](https://hub.docker.com/r/pansila/v2ray_heroku)
+![Downloads](https://img.shields.io/endpoint?url=https%3a%2f%2fstats.mideuu.tk%2fbadge)
 [![Join the chat at https://gitter.im/pansila/v2ray_heroku](https://img.shields.io/gitter/room/pansila/v2ray_heroku?style=flat-square&color=9cf&label=Chat)](https://gitter.im/pansila/v2ray_heroku)
 [![Chat on discord](https://img.shields.io/discord/852170555855732756?color=9cf&label=Discord&style=flat-square)](https://discord.gg/W7gwgsYZG5)
 
