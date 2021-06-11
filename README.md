@@ -22,7 +22,7 @@ It's inspired by [v2ray-heroku](https://github.com/bclswl0827/v2ray-heroku), but
 
 This project builds the docker image with v2ray included and pushs to the docker hub.
 
-The fallback this way is that the v2ray is not always up to date, to do so you need to:
+The drawback this way is that the v2ray is not always up to date, to do so you need to:
 1. fork this repo.
 2. connect the forked repo to your heroku app in the heroku dashboard `Deploy` tab (choose the deployment menthod `GitHub`).
 3. choose automatic deploy, tick `Wait for CI to pass before deploy`.
@@ -35,7 +35,7 @@ You need a secret `DOCKER_PASSWORD` for github action to run, for how to set it 
 ### UUID
 There is a default one, you can generate your own `UUID` at the end of the deploy if you are concern of the default one. [Generate now](https://www.uuidgenerator.net/version4).
 ### DoH
-Set to 'true' to enable DoH (DNS over HTTPS) to protect your DNS queries, although it will increase a little delay to your DNS queries. 'false' to disable it.
+Set to 'true' to enable proxy server side DoH (DNS over HTTPS) to protect your DNS queries, although it will increase a little delay to your DNS queries. 'false' to disable it.
 
 ## v2ray Configurations
 Please find v2ray config files in the repo. `config.json.server` is used by heroku app, `config.json.client` is for your v2ray client, please modify it to suit your case.
