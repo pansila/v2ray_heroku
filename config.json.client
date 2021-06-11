@@ -42,10 +42,8 @@
   },
   {
     "listen": "0.0.0.0",
+    "tag": "http-inbound",
     "protocol": "http",
-    "settings": {
-      "timeout": 360
-    },
     "port": "2080"
   }],
   // List of outbound proxy configurations.
@@ -57,6 +55,21 @@
     "settings": {
       "vnext": [{
           "address": "<your app name>.herokuapp.com",
+          // use CDN provider's seondary domain below instead to accelerate
+          // network accessing if you've set up an edge worker or CNAME record
+          // "address": "<your worker name>.workers.dev",
+          "port": 443,
+          "users": [{
+               "id": "<your UUID>",
+               "alterId": 64,
+               "security": "auto",
+               "level": 0
+            }
+	  ]
+        },
+        // Optional, add one more app to make a round-bin load balancer
+        {
+          "address": "<your another app name>.herokuapp.com",
           "port": 443,
           "users": [{
                "id": "<your UUID>",
@@ -87,7 +100,7 @@
     },
 
     // Tag of the outbound. May be used for routing.
-    "tag": "heroku 1"
+    "tag": "proxy"
   },{
     "protocol": "freedom",
     "settings": {},
