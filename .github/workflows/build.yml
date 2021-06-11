@@ -42,7 +42,7 @@ jobs:
         with:
           script: |
             const { owner, repo } = context.repo
-            if (${{ env.CANCEL }} && (!${{ github.event.inputs.skip_check }} || ${{ github.event.inputs.skip_check }} === 'false')) {
+            if (${{ env.CANCEL }} && (!'${{ github.event.inputs.skip_check }}' || '${{ github.event.inputs.skip_check }}' === 'false')) {
               console.log('Cancelling ...');
               const run_id = "${{ github.run_id }}";
               await github.actions.cancelWorkflowRun({ owner, repo, run_id });
