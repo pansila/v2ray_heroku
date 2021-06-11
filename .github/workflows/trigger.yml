@@ -5,7 +5,7 @@ on:
   workflow_dispatch:
   schedule:
     # run ahead of image building workflow to detect the new release
-    - cron: 30 19 * * *
+    - cron: 55 19 * * *
 
 jobs:
   build:
@@ -52,4 +52,4 @@ jobs:
       - name: Should trigger?
         run: |
           test "${{ steps.cancel.outputs.result }}" = "trigger"
-          sleep 3600 # wait for image building to fininsh
+          sleep 600 # wait for image building to fininsh
