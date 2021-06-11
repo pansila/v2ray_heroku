@@ -9,7 +9,7 @@
         },
         "DoH": {
             "description": "Enable DoH to protect your DNS queries",
-            "value": "true"
+            "value": "false"
         }
     },
     "website": "https://ibcl.us/Heroku-V2Ray_20191014/",
