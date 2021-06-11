@@ -18,6 +18,13 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Disable on Forked Repo
+        run: |
+          if [[ "${{ GITHUB_REPOSITORY }}" != "pansila/v2ray_heroku" ]]; then
+            echo "Do not run on a forked repo unless you know what you are doing"
+            exit 1
+          fi
+
       - uses: actions/checkout@v2
 
       - name: Check the latest version
