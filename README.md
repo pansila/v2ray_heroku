@@ -25,7 +25,8 @@ This project builds the docker image with v2ray included and pushs to the docker
 The fallback this way is that the v2ray is not always up to date, to do so you need to:
 1. fork this repo.
 2. connect the forked repo to your heroku app in the heroku dashboard `Deploy` tab (choose the deployment menthod `GitHub`).
-3. choose automatic deploy (tick `Wait for CI to pass before deploy` if you have set up CI) or manual deploy.
+3. choose automatic deploy, tick `Wait for CI to pass before deploy`.
+4. enable actions in the `actions` tab as it's disabled when forked. The repo has a workflow that runs periodically to check the new release and triggers auto deploy when found one.
 
 ## Before Running Github Action
 You need a secret `DOCKER_PASSWORD` for github action to run, for how to set it please refer to [here](https://docs.github.com/cn/actions/reference/encrypted-secrets).
