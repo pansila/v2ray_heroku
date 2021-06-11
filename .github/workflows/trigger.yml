@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Check the latest version
+      - name: Only for forked repo
         run: |
           if [ ! "$GITHUB_REPOSITORY" = "pansila/v2ray_heroku" ]; then
             exit 1
