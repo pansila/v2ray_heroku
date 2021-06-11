@@ -5,6 +5,11 @@ on:
     branches: [ main ]
   repository_dispatch:
   workflow_dispatch:
+    inputs:
+      skip_check:
+        description: 'Whether to skip the version check'     
+        required: true
+        default: 'false'
   schedule:
     - cron: 0 20 * * *
 
@@ -37,7 +42,7 @@ jobs:
         with:
           script: |
             const { owner, repo } = context.repo
-            if (${{ env.CANCEL }}) {
+            if (${{ env.CANCEL }} && ${{ github.event.inputs.skip_check }} === 'false') {
               console.log('Cancelling ...');
               const run_id = "${{ github.run_id }}";
               await github.actions.cancelWorkflowRun({ owner, repo, run_id });
