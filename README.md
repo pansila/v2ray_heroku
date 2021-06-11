@@ -33,7 +33,9 @@ You need a secret `DOCKER_PASSWORD` for github action to run, for how to set it 
 
 ## ENV setting
 ### UUID
-Generate your own `UUID` at the end of the deploy if you are concern of the default one. [Generate now](https://www.uuidgenerator.net/version4).
+There is a default one, you can generate your own `UUID` at the end of the deploy if you are concern of the default one. [Generate now](https://www.uuidgenerator.net/version4).
+### DoH
+Set to 'true' to enable DoH (DNS over HTTPS) to protect your DNS queries, although it will increase a little delay to your DNS queries. 'false' to disable it.
 
 ## v2ray configuration
 Please find v2ray config files in the repo. `config.json.server` is used by heroku app, `config.json.client` is for your v2ray client, please modify it to suit your case.
