@@ -1,7 +1,7 @@
 # Faster V2Ray Heroku App Image
 [![Docker Pulls](https://img.shields.io/docker/pulls/pansila/v2ray_heroku.svg?style=flat-square&label=Pulls&logo=docker&color=green)](https://hub.docker.com/r/pansila/v2ray_heroku)
 [![Docker Version](https://img.shields.io/docker/v/pansila/v2ray_heroku?sort=date&style=flat-square&label=Version&logo=docker&color=blue)](https://hub.docker.com/r/pansila/v2ray_heroku)
-![Downloads](https://img.shields.io/endpoint?url=https%3a%2f%2fstats.mideuu.tk%2fbadge)
+![Deploys](https://img.shields.io/endpoint?url=https%3a%2f%2fstats.mideuu.tk%2fbadge)
 [![Join the chat at https://gitter.im/pansila/v2ray_heroku](https://img.shields.io/gitter/room/pansila/v2ray_heroku?style=flat-square&color=9cf&label=Chat)](https://gitter.im/pansila/v2ray_heroku)
 [![Chat on discord](https://img.shields.io/discord/852170555855732756?color=9cf&label=Discord&style=flat-square)](https://discord.gg/W7gwgsYZG5)
 
@@ -18,9 +18,12 @@ Free heroku app is overwhelmed and hence become slower over the time, please tre
 *A redirection will be made to collect the clicks statistics.*
 
 ## Why Another Docker Image?
-It's inspired by [v2ray-heroku](https://github.com/bclswl0827/v2ray-heroku), but the original one downloads and deflates the latest v2ray everytime the heroku app boots, incuring a large latency to respondences to the initial proxy requests (Free Heroku App will force to stop after a while of idle).
+It's inspired by [v2ray-heroku](https://github.com/bclswl0827/v2ray-heroku), but it has some pitfalls.
+1. It downloads and deflates the latest v2ray everytime the heroku app boots, incuring a large latency to respondence to the initial proxy requests (Free Heroku App will force to stop after a while of idle).
+2. In order to reduce the image size, it's built from Apine Linux 3.5 which is too old to have an up-to-date ca-certificates.
+3. No fine tuned template v2ray client config which makes novices hard to pick it up or easy to suffer from performance issues or privacy leakage problems.
 
-This project builds the docker image with v2ray included and pushs to the docker hub.
+This project builds the docker image with v2ray included against latest Apine Linux and pushs to the docker hub.
 
 ## Auto Update (Deploy)
 The drawback this way is that the v2ray is not always up to date, to do so you need to:
