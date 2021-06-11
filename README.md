@@ -18,7 +18,7 @@ Free heroku app is overwhelmed and thus slow, please treat it with kid gloves. C
 *A redirection will be made to collect the clicks statistics.*
 
 ## Why another docker image?
-It's inspired by [v2ray-heroku](https://github.com/bclswl0827/v2ray-heroku), but the original one downloads and deflates the latest v2ray everytime the heroku app boots, incuring a large delay to respond to the proxy request.
+It's inspired by [v2ray-heroku](https://github.com/bclswl0827/v2ray-heroku), but the original one downloads and deflates the latest v2ray everytime the heroku app boots, incuring a large delay to respond to the proxy requests.
 
 This project builds the docker image with v2ray included and pushs to the docker hub, if you want the latest v2ray, just kick off the build in the github action manually or push a commit.
 
@@ -37,3 +37,10 @@ Generate your own `UUID` at the end of the deploy if you are concern of the defa
 
 ## v2ray configuration
 Please find v2ray config files in the repo. `config.json.server` is used by heroku app, `config.json.client` is for your v2ray client, please modify it to suit your case.
+
+## Security and Privacy
+1. All stuffs here are open sourced, you can check them line by line.
+2. V2ray is downloaded from the its offical github release page.
+3. You can check the SHA digest of the images in the [building results](https://github.com/pansila/v2ray_heroku/actions) and the docker image digest in the [docker hub](https://hub.docker.com/r/pansila/v2ray_heroku/tags) (Digest changes even with the same building stuffs for different docker image buildings).
+4. You can further check the building steps of a docker image in the docker hub.
+5. If you are still not convinced, you can fork the repositary, build the image by yourself and deploy it.
