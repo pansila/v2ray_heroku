@@ -1,0 +1,55 @@
+name: Trigger Auto Heroku Deploy Upon New Release
+
+on:
+  repository_dispatch:
+  workflow_dispatch:
+  schedule:
+    # run ahead of image building workflow to detect the new release
+    - cron: 30 19 * * *
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Check the latest version
+        run: |
+          github_latest=$(utils/github_get_latest_release.sh v2fly/v2ray-core)
+          docker_latest=$(utils/docker_image_find_tag_equal_to_latest.sh -n pansila/v2ray_heroku -q)
+          if [[ "$github_latest" == "$docker_latest" ]]; then
+            echo "CANCEL=1" >> $GITHUB_ENV
+            echo "docker image is up to date, cancelling the updating..."
+            exit 0
+          fi
+          if [ -z "$github_latest" ] || [ -z "$docker_latest" ]; then
+            echo "CANCEL=1" >> $GITHUB_ENV
+            echo "Getting the wrong versions: current: $docker_latest, latest: $github_latest, cancelling..."
+            exit 0
+          fi
+          echo "VERSION=$github_latest" >> $GITHUB_ENV
+          echo "docker image is out of date, current: $docker_latest, latest: $github_latest, updating..."
+      - uses: actions/github-script@v2
+        id: cancel
+        with:
+          script: |
+            const { owner, repo } = context.repo
+            if (${{ env.CANCEL }} && (!'${{ github.event.inputs.skip_check }}' || '${{ github.event.inputs.skip_check }}' === 'false')) {
+              console.log('Cancelling ...');
+              const run_id = "${{ github.run_id }}";
+              await github.actions.cancelWorkflowRun({ owner, repo, run_id });
+              return 'stop'
+            } else {
+              return 'trigger'
+            }
+          result-encoding: string
+
+      - name: Waiting for cancellation
+        run: sleep 60
+        if: steps.cancel.outputs.result == 'stop'
+
+      - name: Should trigger?
+        run: |
+          test "${{ steps.cancel.outputs.result }}" = "trigger"
+          sleep 3600 # wait for image building to fininsh
