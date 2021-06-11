@@ -136,15 +136,22 @@
     },
     "servers": [
       "1.1.1.1",
+      "8.8.8.8",
       {
-        "address": "114.114.114.114",
-        "port": 53,
+        // try DoH first to protect your privacy
+        "address": "https://223.5.5.5/dns-query",
         // List of domains that use this DNS first.
         "domains": [
           "geosite:cn"
         ]
       },
-      "8.8.8.8",
+      {
+        "address": "114.114.114.114",
+        "port": 53,
+        "domains": [
+          "geosite:cn"
+        ]
+      },
       "localhost"
     ]
   },
