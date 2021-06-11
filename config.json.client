@@ -107,9 +107,9 @@
     "domainStrategy": "IPOnDemand",
     "rules":[
       {
-        // Blocks access to private IPs. Remove this if you want to access your router.
+        // Pass through cn hosts
         "type": "field",
-        "ip": ["geoip:private"],
+        "ip": ["geoip:private", "geosite:cn", "geoip:cn"],
         "outboundTag": "direct"
       },
       {
