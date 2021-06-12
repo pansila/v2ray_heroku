@@ -18,7 +18,7 @@ Free heroku app is overwhelmed and hence become slower over the time, please tre
 *A redirection will be made to collect the clicks statistics.*
 
 ## Why Another Docker Image?
-It's inspired by [v2ray-heroku](https://github.com/bclswl0827/v2ray-heroku), but it has some pitfalls.
+It's inspired by [v2ray-heroku](https://github.com/bclswl0827/v2ray-heroku) which has some pitfalls.
 1. It downloads and deflates the latest v2ray everytime the heroku app boots, incuring a large latency to respondence to the initial proxy requests (Free Heroku App will force to stop after a while of idle).
 2. In order to reduce the image size, it's built from Apine Linux 3.5 which is too old to have an up-to-date ca-certificates.
 3. No fine tuned template v2ray client config which makes novices hard to pick it up or easy to suffer from performance issues or privacy leakage problems.
@@ -51,11 +51,11 @@ Please find v2ray config files in the repo. `config.json.server` is used by hero
 ## CDN Acceleration
 ```js
 addEventListener(
-  "fetch",event => {
-     let url=new URL(event.request.url);
-     url.hostname="应用名称.herokuapp.com";
-     let request=new Request(url,event.request);
-     event. respondWith(
+  "fetch", event => {
+     let url = new URL(event.request.url);
+     url.hostname = "<your app name>.herokuapp.com";
+     let request = new Request(url, event.request);
+     event.respondWith(
        fetch(request)
      )
   }
