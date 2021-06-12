@@ -20,15 +20,15 @@ Free heroku app is overwhelmed and hence become slower over the time, please tre
 ## Why Another Docker Image?
 It's inspired by [v2ray-heroku](https://github.com/bclswl0827/v2ray-heroku) which has some pitfalls.
 1. It downloads and deflates the latest v2ray everytime the heroku app boots, incuring a large latency to respondence to the initial proxy requests (Free Heroku App will force to stop after a while of idle).
-2. In order to reduce the image size, it's built from Apine Linux 3.5 which is too old to have an up-to-date ca-certificates.
+2. In order to reduce the image size, it's built from Alpine Linux 3.5 which is too old to have an up-to-date ca-certificates.
 3. No fine tuned template v2ray client config which makes novices hard to pick it up or easy to suffer from performance issues or privacy leakage problems.
 
-This project builds the docker image with v2ray included against latest Apine Linux and pushs to the docker hub.
+This project builds the docker image with v2ray included against latest Alpine Linux and pushs to the docker hub.
 
 ## Auto Update (Deploy)
 The drawback this way is that the v2ray is not always up to date, to do so you need to:
 1. Fork this repo.
-2. Connect the forked repo to your heroku app in the heroku dashboard `Deploy` tab (choose the deployment menthod `GitHub`).
+2. Connect the forked repo to your heroku app in the heroku dashboard `Deploy` tab (choose the deployment method `GitHub`).
 3. Choose automatic deploy, tick `Wait for CI to pass before deploy`.
 4. Enable github actions in the `actions` tab as it's disabled when forked. The repo has a workflow that runs periodically to check the new release and triggers auto deploy when found one.
 
