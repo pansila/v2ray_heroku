@@ -65,7 +65,7 @@
                "security": "auto",
                "level": 0
             }
-	  ]
+          ]
         },
         // Optional, add one more app to make a round-bin load balancer
         {
@@ -77,7 +77,7 @@
                "security": "auto",
                "level": 0
             }
-	  ]
+          ]
         }
       ]
     },
@@ -85,7 +85,7 @@
       "network": "ws",
       "security": "tls",
       "tlsSettings": {
-	"allowInsecure": false
+        "allowInsecure": false
       },
       "wsSettings": {
         "path": "/",
@@ -95,7 +95,7 @@
       },
       "sockopt": {
         "mark": 0,
-	"tproxy": "off"
+        "tproxy": "off"
       }
     },
 
@@ -157,7 +157,7 @@
       {
         "address": "1.1.1.1",
         "port": 53,
-        "domains": ["geosite:!cn"],
+        "domains": ["geosite:geolocation-!cn"],
         "expectIPs": ["geoip:!cn"]
       },
       "8.8.8.8",
