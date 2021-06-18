@@ -1,4 +1,10 @@
 {
+    // "dns": {
+    //     "servers": [
+    //         "https+local://1.1.1.1/dns-query",
+    //         "localhost"
+    //     ]
+    //},
     "inbounds": [
         {
             "port": "__PORT",
@@ -21,11 +27,5 @@
         {
             "protocol": "freedom"
         }
-    ],
-    // "dns": {
-    //     "servers": [
-    //         "https+local://1.1.1.1/dns-query",
-    //         "localhost"
-    //     ]
-    //}
+    ]
 }
