@@ -42,6 +42,7 @@ jobs:
             exit 0
           fi
           echo "VERSION=$github_latest" >> $GITHUB_ENV
+          echo "CANCEL=0" >> $GITHUB_ENV
           echo "docker image is out of date, current: $docker_latest, latest: $github_latest, updating..."
 
       - uses: actions/github-script@v2
